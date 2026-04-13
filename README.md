@@ -1,18 +1,20 @@
 # TGMF Project Page
 
-CVPR-style GitHub Pages project page for **TGMF: Taylor Gaussian Motion Field for Dynamic Head Avatars**.
+Minimal GitHub Pages version.
 
-## Included
-- `index.html` — project page
-- `assets/output.mp4` — browser-compatible demo video
-- `assets/poster.jpg` — video poster frame
-- `assets/framework-teaser.svg` — method teaser figure
+## Files
+- `index.html`
+- `framework.png`
+- `output.mp4`
+- `poster.png`
 
-## GitHub Pages
-Upload the extracted files to the repository root, then publish with:
+## Notes
+- The top of the page uses exactly three buttons: Paper / Code / Project Page.
+- `framework.png` is the original figure you provided.
+- `output.mp4` is the web-compatible video version.
 
-- **Settings → Pages**
-- **Deploy from a branch**
-- Branch: **main**
-- Folder: **/(root)**
-
+## Replace links
+Open `index.html` and change these links if needed:
+- Paper button: `href="#paper"`
+- Code button: `href="https://github.com/xiaotan12/TGMF"`
+- Project Page button: `href="./"`

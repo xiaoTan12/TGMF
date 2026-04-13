@@ -1,0 +1,107 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="760" viewBox="0 0 1600 760" fill="none">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1600" y2="760" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F9FBFF"/>
+      <stop offset="1" stop-color="#F2F5FB"/>
+    </linearGradient>
+    <linearGradient id="blue" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#DBEAFE"/>
+      <stop offset="1" stop-color="#BFDBFE"/>
+    </linearGradient>
+    <linearGradient id="violet" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#EDE9FE"/>
+      <stop offset="1" stop-color="#DDD6FE"/>
+    </linearGradient>
+    <linearGradient id="green" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#DCFCE7"/>
+      <stop offset="1" stop-color="#BBF7D0"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="12" stdDeviation="18" flood-color="#0F172A" flood-opacity=".08"/>
+    </filter>
+  </defs>
+  <rect x="0" y="0" width="1600" height="760" rx="28" fill="url(#bg)"/>
+  <text x="800" y="78" text-anchor="middle" fill="#0F172A" font-size="40" font-family="Arial, Helvetica, sans-serif" font-weight="700">Taylor Gaussian Motion Field (TGMF)</text>
+  <text x="800" y="118" text-anchor="middle" fill="#475569" font-size="22" font-family="Arial, Helvetica, sans-serif">A CVPR-style teaser summarizing the paper pipeline</text>
+
+  <g filter="url(#shadow)">
+    <rect x="56" y="160" width="448" height="470" rx="28" fill="white"/>
+    <rect x="576" y="160" width="448" height="470" rx="28" fill="white"/>
+    <rect x="1096" y="160" width="448" height="470" rx="28" fill="white"/>
+  </g>
+
+  <!-- Panel 1 -->
+  <text x="280" y="210" text-anchor="middle" fill="#111827" font-size="30" font-family="Arial, Helvetica, sans-serif" font-weight="700">3D Gaussian Head Avatar</text>
+  <rect x="112" y="248" width="336" height="300" rx="24" fill="url(#blue)" stroke="#93C5FD"/>
+  <ellipse cx="280" cy="396" rx="112" ry="136" fill="#E2E8F0" stroke="#64748B" stroke-width="3"/>
+  <ellipse cx="240" cy="365" rx="12" ry="18" fill="#334155"/>
+  <ellipse cx="320" cy="365" rx="12" ry="18" fill="#334155"/>
+  <path d="M250 450 C275 470, 305 470, 330 450" stroke="#334155" stroke-width="5" stroke-linecap="round"/>
+  <path d="M175 318 C150 272, 160 245, 215 222 C265 202, 340 204, 385 232 C418 252, 422 288, 402 325" fill="#CBD5E1" stroke="#64748B" stroke-width="3"/>
+  <g opacity=".95">
+    <circle cx="190" cy="322" r="8" fill="#2563EB"/>
+    <circle cx="208" cy="286" r="7" fill="#3B82F6"/>
+    <circle cx="230" cy="258" r="7" fill="#60A5FA"/>
+    <circle cx="360" cy="278" r="7" fill="#2563EB"/>
+    <circle cx="388" cy="314" r="8" fill="#3B82F6"/>
+    <circle cx="204" cy="468" r="7" fill="#60A5FA"/>
+    <circle cx="252" cy="520" r="7" fill="#2563EB"/>
+    <circle cx="308" cy="516" r="7" fill="#3B82F6"/>
+    <circle cx="366" cy="472" r="7" fill="#60A5FA"/>
+    <circle cx="416" cy="402" r="7" fill="#2563EB"/>
+  </g>
+  <text x="280" y="584" text-anchor="middle" fill="#475569" font-size="19" font-family="Arial, Helvetica, sans-serif">Explicit Gaussian primitives for dynamic head representation</text>
+
+  <!-- Panel 2 -->
+  <text x="800" y="210" text-anchor="middle" fill="#111827" font-size="30" font-family="Arial, Helvetica, sans-serif" font-weight="700">Taylor Gaussian Motion Field</text>
+  <rect x="632" y="248" width="336" height="300" rx="24" fill="url(#violet)" stroke="#C4B5FD"/>
+  <rect x="682" y="288" width="236" height="76" rx="18" fill="white" stroke="#A78BFA"/>
+  <text x="800" y="324" text-anchor="middle" fill="#5B21B6" font-size="24" font-family="Arial, Helvetica, sans-serif" font-weight="700">P(t), S(t), R(t)</text>
+  <text x="800" y="352" text-anchor="middle" fill="#6D28D9" font-size="17" font-family="Arial, Helvetica, sans-serif">2nd-order Taylor expansion around a reference state</text>
+
+  <path d="M714 430 C742 392, 776 366, 818 350" stroke="#7C3AED" stroke-width="5" stroke-linecap="round"/>
+  <path d="M750 470 C788 422, 834 394, 886 380" stroke="#7C3AED" stroke-width="5" stroke-linecap="round"/>
+  <path d="M790 500 C838 450, 888 420, 934 406" stroke="#7C3AED" stroke-width="5" stroke-linecap="round"/>
+
+  <circle cx="706" cy="438" r="9" fill="#8B5CF6"/>
+  <circle cx="750" cy="471" r="9" fill="#A78BFA"/>
+  <circle cx="792" cy="500" r="9" fill="#C4B5FD"/>
+  <circle cx="818" cy="350" r="9" fill="#8B5CF6"/>
+  <circle cx="886" cy="380" r="9" fill="#A78BFA"/>
+  <circle cx="934" cy="406" r="9" fill="#C4B5FD"/>
+
+  <text x="800" y="584" text-anchor="middle" fill="#475569" font-size="19" font-family="Arial, Helvetica, sans-serif">Interpretable velocity + acceleration with local continuous dynamics</text>
+
+  <!-- Panel 3 -->
+  <text x="1320" y="210" text-anchor="middle" fill="#111827" font-size="30" font-family="Arial, Helvetica, sans-serif" font-weight="700">Stable Head Avatars</text>
+  <rect x="1152" y="248" width="336" height="300" rx="24" fill="url(#green)" stroke="#86EFAC"/>
+  <rect x="1206" y="282" width="98" height="98" rx="18" fill="white" stroke="#86EFAC"/>
+  <rect x="1334" y="282" width="98" height="98" rx="18" fill="white" stroke="#86EFAC"/>
+  <rect x="1206" y="412" width="98" height="98" rx="18" fill="white" stroke="#86EFAC"/>
+  <rect x="1334" y="412" width="98" height="98" rx="18" fill="white" stroke="#86EFAC"/>
+  <g fill="#64748B">
+    <circle cx="1255" cy="326" r="26"/><rect x="1230" y="350" width="50" height="24" rx="12"/>
+    <circle cx="1383" cy="326" r="26"/><rect x="1358" y="350" width="50" height="24" rx="12"/>
+    <circle cx="1255" cy="456" r="26"/><rect x="1230" y="480" width="50" height="24" rx="12"/>
+    <circle cx="1383" cy="456" r="26"/><rect x="1358" y="480" width="50" height="24" rx="12"/>
+  </g>
+  <g fill="#16A34A" opacity=".9">
+    <circle cx="1236" cy="315" r="5"/><circle cx="1270" cy="340" r="5"/>
+    <circle cx="1362" cy="315" r="5"/><circle cx="1402" cy="338" r="5"/>
+    <circle cx="1238" cy="445" r="5"/><circle cx="1272" cy="468" r="5"/>
+    <circle cx="1362" cy="445" r="5"/><circle cx="1400" cy="468" r="5"/>
+  </g>
+  <text x="1320" y="584" text-anchor="middle" fill="#475569" font-size="19" font-family="Arial, Helvetica, sans-serif">Novel-view / novel-expression rendering with improved temporal stability</text>
+
+  <!-- arrows -->
+  <path d="M506 392 C540 392, 540 392, 568 392" stroke="#94A3B8" stroke-width="6" stroke-linecap="round"/>
+  <path d="M552 372 L586 392 L552 412" fill="none" stroke="#94A3B8" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M1026 392 C1060 392, 1060 392, 1088 392" stroke="#94A3B8" stroke-width="6" stroke-linecap="round"/>
+  <path d="M1072 372 L1106 392 L1072 412" fill="none" stroke="#94A3B8" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- bottom callouts -->
+  <g>
+    <rect x="210" y="664" width="1180" height="56" rx="18" fill="white" stroke="#E2E8F0"/>
+    <text x="800" y="700" text-anchor="middle" fill="#334155" font-size="22" font-family="Arial, Helvetica, sans-serif">Local Taylor dynamics + mesh-coupled optimization + differentiable motion backpropagation</text>
+  </g>
+</svg>

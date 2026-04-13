@@ -5,279 +5,233 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>TGMF: Taylor Gaussian Motion Field for Dynamic Head Avatars</title>
   <style>
-    :root {
-      --bg: #0b1020;
-      --panel: #121932;
-      --panel-2: #17203f;
-      --text: #eef2ff;
-      --muted: #b7c0df;
-      --line: rgba(255,255,255,.12);
-      --accent: #7aa2ff;
-      --good: #73d13d;
-      --bad: #ff7875;
-      --chip: rgba(122,162,255,.14);
-      --shadow: 0 20px 50px rgba(0,0,0,.28);
-      --radius: 18px;
-      --max: 1100px;
+    :root{
+      --bg:#ffffff;
+      --panel:#ffffff;
+      --soft:#f7f8fb;
+      --line:#e5e7eb;
+      --text:#111827;
+      --muted:#4b5563;
+      --muted2:#6b7280;
+      --blue:#2563eb;
+      --blue-dark:#1d4ed8;
+      --chip:#eff6ff;
+      --green:#16a34a;
+      --red:#dc2626;
+      --shadow:0 10px 30px rgba(15,23,42,.06);
+      --radius:18px;
+      --max:1120px;
     }
-
-    * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background: linear-gradient(180deg, #0b1020 0%, #0f1730 100%);
-      color: var(--text);
-      line-height: 1.65;
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+      color:var(--text);
+      background:linear-gradient(180deg,#fbfcfe 0%,#ffffff 280px);
+      line-height:1.65;
     }
-    a { color: var(--text); text-decoration: none; }
-    .wrap { width: min(var(--max), calc(100% - 32px)); margin: 0 auto; }
-    .hero {
-      padding: 72px 0 40px;
-      text-align: center;
+    a{color:inherit;text-decoration:none}
+    .wrap{width:min(var(--max), calc(100% - 32px)); margin:0 auto}
+    .hero{padding:56px 0 28px;text-align:center}
+    .venue{
+      display:inline-flex;gap:10px;align-items:center;justify-content:center;
+      padding:7px 14px;border:1px solid var(--line);border-radius:999px;background:var(--soft);
+      color:var(--muted);font-size:13px;font-weight:600;letter-spacing:.01em
     }
-    .badge {
-      display: inline-block;
-      padding: 6px 12px;
-      border: 1px solid var(--line);
-      background: var(--chip);
-      border-radius: 999px;
-      color: var(--muted);
-      font-size: 13px;
-      letter-spacing: .02em;
+    h1{
+      font-size:clamp(30px,4.6vw,54px);line-height:1.08;margin:18px auto 12px;max-width:980px;
+      letter-spacing:-.02em;
     }
-    h1 {
-      margin: 18px auto 14px;
-      max-width: 960px;
-      font-size: clamp(32px, 5vw, 56px);
-      line-height: 1.08;
+    .subtitle{
+      max-width:900px;margin:0 auto;color:var(--muted);font-size:19px
     }
-    .subtitle {
-      margin: 0 auto;
-      max-width: 840px;
-      color: var(--muted);
-      font-size: 18px;
+    .authors{
+      margin:18px auto 8px;max-width:980px;font-size:18px;color:#1f2937
     }
-    .links {
-      display: flex;
-      justify-content: center;
-      gap: 12px;
-      flex-wrap: wrap;
-      margin-top: 24px;
+    .authors sup,.affils sup{font-size:12px}
+    .affils{color:var(--muted2);font-size:15px}
+    .button-row{
+      display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:26px
     }
-    .btn {
-      padding: 12px 18px;
-      border-radius: 12px;
-      border: 1px solid var(--line);
-      background: var(--panel);
-      box-shadow: var(--shadow);
-      font-weight: 600;
+    .btn{
+      display:inline-flex;align-items:center;justify-content:center;gap:8px;
+      padding:11px 16px;border:1px solid var(--line);border-radius:12px;
+      background:#fff;font-weight:600;box-shadow:var(--shadow)
     }
-    .btn.primary {
-      background: linear-gradient(180deg, #7aa2ff, #5d86ef);
-      color: #081123;
-      border: none;
+    .btn.primary{background:var(--blue);border-color:var(--blue);color:#fff}
+    .btn.primary:hover{background:var(--blue-dark)}
+    .btn:hover{transform:translateY(-1px)}
+    section{padding:22px 0}
+    h2{
+      margin:0 0 14px;font-size:30px;letter-spacing:-.02em
     }
-    section { padding: 22px 0; }
-    .card {
-      background: rgba(18,25,50,.88);
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      padding: 22px;
+    .section-label{
+      font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--blue);margin-bottom:10px
     }
-    .video-card {
-      margin-top: 28px;
-      padding: 18px;
-      background: rgba(12,18,36,.86);
-      border: 1px solid var(--line);
-      border-radius: 24px;
-      box-shadow: var(--shadow);
+    .card{
+      background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);
+      box-shadow:var(--shadow);padding:22px
     }
-    video {
-      width: 100%;
-      max-width: 380px;
-      border-radius: 18px;
-      display: block;
-      margin: 0 auto;
-      background: #000;
-      border: 1px solid rgba(255,255,255,.08);
+    .soft-card{
+      background:var(--soft);border:1px solid var(--line);border-radius:var(--radius);
+      padding:20px
     }
-    h2 {
-      margin: 0 0 14px;
-      font-size: 28px;
+    .teaser{padding-top:10px}
+    .teaser img,.figure img{
+      width:100%;display:block;border-radius:16px;border:1px solid var(--line);background:#fff
     }
-    .grid-2 {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0,1fr));
-      gap: 18px;
+    .caption{
+      margin-top:10px;color:var(--muted2);font-size:15px;text-align:center
     }
-    .grid-3 {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0,1fr));
-      gap: 18px;
+    .grid-2{display:grid;grid-template-columns:1.15fr .85fr;gap:22px}
+    .grid-3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+    .stat-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+    .stat{
+      background:var(--soft);border:1px solid var(--line);border-radius:16px;padding:18px
     }
-    .muted { color: var(--muted); }
-    ul { margin: 0; padding-left: 20px; }
-    .do h3 { color: var(--good); }
-    .dont h3 { color: var(--bad); }
-    .metric {
-      display: flex;
-      justify-content: space-between;
-      gap: 12px;
-      padding: 12px 0;
-      border-top: 1px solid var(--line);
+    .stat .v{font-size:28px;font-weight:800;line-height:1.1}
+    .stat .k{font-size:13px;color:var(--muted2);margin-top:6px}
+    video{
+      width:100%;display:block;background:#000;border-radius:16px;border:1px solid var(--line)
     }
-    .metric:first-child { border-top: none; }
-    .gallery {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0,1fr));
-      gap: 18px;
+    .mini{
+      color:var(--muted2);font-size:14px
     }
-    .subject {
-      background: rgba(23,32,63,.9);
-      border: 1px solid var(--line);
-      border-radius: 18px;
-      padding: 18px;
-      min-height: 160px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
+    .pill{
+      display:inline-block;padding:6px 10px;border-radius:999px;background:var(--chip);
+      color:var(--blue);font-weight:700;font-size:12px;letter-spacing:.01em
     }
-    .tag {
-      display: inline-block;
-      font-size: 12px;
-      padding: 5px 10px;
-      border-radius: 999px;
-      background: rgba(255,255,255,.08);
-      color: var(--muted);
+    ul.clean{margin:0;padding-left:18px}
+    ul.clean li{margin:8px 0}
+    .do h3,.dont h3{margin:0 0 10px;font-size:20px}
+    .do h3{color:var(--green)}
+    .dont h3{color:var(--red)}
+    .gallery{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+    .subject{
+      border:1px solid var(--line);border-radius:18px;background:#fff;box-shadow:var(--shadow);
+      padding:18px;min-height:170px;display:flex;flex-direction:column;justify-content:space-between
     }
-    .ready { background: rgba(115,209,61,.12); color: #b7f397; }
-    .soon { background: rgba(255,255,255,.08); color: var(--muted); }
-    footer {
-      padding: 40px 0 60px;
-      color: var(--muted);
-      text-align: center;
-      font-size: 14px;
+    .subject h4{margin:0 0 8px;font-size:20px}
+    .subject p{margin:0;color:var(--muted2);font-size:14px}
+    .tag{display:inline-flex;align-items:center;padding:5px 9px;border-radius:999px;font-size:12px;font-weight:700}
+    .tag.ready{background:#ecfdf5;color:#15803d}
+    .tag.soon{background:#f3f4f6;color:#6b7280}
+    .bib{
+      background:#0f172a;color:#e5e7eb;border-radius:18px;padding:18px;overflow:auto;border:1px solid #1f2937
     }
-    code.inline {
-      background: rgba(255,255,255,.08);
-      border: 1px solid var(--line);
-      border-radius: 8px;
-      padding: 2px 8px;
-      color: #dbe4ff;
+    pre{margin:0;white-space:pre-wrap;font-family: ui-monospace,SFMono-Regular,Menlo,monospace;font-size:14px;line-height:1.55}
+    footer{
+      padding:36px 0 54px;text-align:center;color:var(--muted2);font-size:14px
     }
-    pre {
-      margin: 0;
-      padding: 16px;
-      overflow: auto;
-      border-radius: 14px;
-      border: 1px solid var(--line);
-      background: #0a1124;
-      color: #dbe4ff;
+    .split-note{
+      display:flex;justify-content:space-between;gap:16px;align-items:flex-start;flex-wrap:wrap
     }
-    @media (max-width: 860px) {
-      .grid-2, .grid-3, .gallery { grid-template-columns: 1fr; }
-      .hero { padding-top: 54px; }
+    @media (max-width: 960px){
+      .grid-2,.stat-grid,.grid-3,.gallery{grid-template-columns:1fr}
+      .hero{padding-top:38px}
+      .subtitle{font-size:17px}
+      .authors{font-size:16px}
     }
   </style>
 </head>
 <body>
   <header class="hero">
     <div class="wrap">
-      <div class="badge">Project Page · GitHub Showcase</div>
+      <div class="venue">CVPR-style project page · Demo + Figure + Results</div>
       <h1>TGMF: Taylor Gaussian Motion Field for Dynamic Head Avatars</h1>
       <p class="subtitle">
-        A Taylor-based local motion field that explicitly models Gaussian motion with interpretable velocity and acceleration,
-        and refines it with bidirectional Gaussian--mesh optimization for stable dynamic head avatars.
+        A local Taylor motion field for dynamic Gaussian head avatars, with interpretable velocity and acceleration terms,
+        unified affine motion, and bidirectional Gaussian–mesh optimization for stronger temporal stability.
       </p>
-      <div class="links">
-        <a class="btn primary" href="./assets/output.mp4">Watch Demo</a>
-        <a class="btn" href="#gallery">Subject Gallery</a>
-        <a class="btn" href="#dos-and-donts">Do / Not Do</a>
-        <a class="btn" href="#citation">Citation</a>
+      <div class="authors">
+        Xiangyang Wang<sup>1</sup>, Yu Qiu<sup>1</sup>, Xiao Tan<sup>1</sup>, Rui Wang<sup>1</sup>, Erkang Cheng<sup>2</sup>
+      </div>
+      <div class="affils">
+        <sup>1</sup>Shanghai University &nbsp;&nbsp; <sup>2</sup>Nullmax
       </div>
 
-      <div class="video-card">
-        <video controls playsinline muted loop poster="./assets/poster.jpg">
-          <source src="./assets/output.mp4" type="video/mp4" />
-          Your browser does not support the video tag.
-        </video>
+      <div class="button-row">
+        <a class="btn primary" href="#video-demo">Demo Video</a>
+        <a class="btn" href="#method-figure">Method Figure</a>
+        <a class="btn" href="#results">Results</a>
+        <a class="btn" href="#future-gallery">Future Gallery</a>
+        <a class="btn" href="#bibtex">BibTeX</a>
       </div>
     </div>
   </header>
 
   <main>
-    <section>
-      <div class="wrap grid-2">
-        <div class="card">
-          <h2>Overview</h2>
-          <p class="muted">
-            TGMF models local motion around a reference state instead of treating deformation as a frame-conditioned black box.
-            The method uses a second-order Taylor formulation for Gaussian position, scale, and rotation, then couples the resulting
-            motion field with a mesh scaffold through differentiable feedback.
-          </p>
-          <p class="muted">
-            This page is designed for project presentation on GitHub and GitHub Pages, with a compact demo-first layout similar in spirit
-            to existing avatar repositories such as MeGA, but centered on TGMF's motion-modeling contribution.
-          </p>
-        </div>
-        <div class="card">
-          <h2>Highlights</h2>
-          <div class="metric"><span>Novel-view vs. MeGA</span><strong>+0.97 PSNR</strong></div>
-          <div class="metric"><span>Novel-expression LPIPS</span><strong>10.53% reduction</strong></div>
-          <div class="metric"><span>FlashAvatar transfer gain</span><strong>6.90% LPIPS reduction</strong></div>
-          <div class="metric"><span>Main focus</span><strong>Temporal stability + local motion</strong></div>
-        </div>
-      </div>
-    </section>
-
-    <section id="dos-and-donts">
-      <div class="wrap grid-2">
-        <div class="card do">
-          <h2>Do</h2>
-          <ul>
-            <li>Show smooth local motion around a reference facial state.</li>
-            <li>Emphasize mouth, eyelid, contour, and hair-boundary consistency.</li>
-            <li>Present novel-view synthesis and novel-expression / self-reenactment results.</li>
-            <li>Explain that TGMF is an interpretable motion model with velocity and acceleration terms.</li>
-            <li>Use the demo page to show stable temporal transitions rather than only single frames.</li>
-          </ul>
-        </div>
-        <div class="card dont">
-          <h2>Not Do</h2>
-          <ul>
-            <li>Do not describe TGMF as a universal solution for arbitrarily long or highly oscillatory motion.</li>
-            <li>Do not oversell very high-frequency micro-motion fitting.</li>
-            <li>Do not present the Taylor field as a global video-time lookup table.</li>
-            <li>Do not imply that all nine subject videos are already online.</li>
-            <li>Do not bury the video behind the code section; keep the demo visible near the top.</li>
-          </ul>
-        </div>
-      </div>
-    </section>
-
-    <section id="gallery">
+    <section class="teaser" id="method-figure">
       <div class="wrap">
+        <div class="section-label">Teaser Figure</div>
+        <div class="card figure">
+          <img src="./assets/framework-teaser.svg" alt="TGMF framework teaser figure" />
+          <div class="caption">
+            TGMF models Gaussian motion around a reference state with a second-order Taylor formulation,
+            then couples local Gaussian dynamics with mesh deformation through differentiable feedback.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="video-demo">
+      <div class="wrap grid-2">
         <div class="card">
-          <h2>Subject Gallery</h2>
-          <p class="muted">The current page shows one demo video. We will add the remaining 8 subjects in the same layout.</p>
-          <div class="gallery">
-            <div class="subject">
-              <div>
-                <span class="tag ready">Available now</span>
-                <h3>Subject 1</h3>
-                <p class="muted">Current demo video released.</p>
-              </div>
-              <a class="btn" href="./assets/output.mp4">Open video</a>
-            </div>
-            <div class="subject"><div><span class="tag soon">Coming soon</span><h3>Subject 2</h3><p class="muted">Reserved slot for future demo.</p></div></div>
-            <div class="subject"><div><span class="tag soon">Coming soon</span><h3>Subject 3</h3><p class="muted">Reserved slot for future demo.</p></div></div>
-            <div class="subject"><div><span class="tag soon">Coming soon</span><h3>Subject 4</h3><p class="muted">Reserved slot for future demo.</p></div></div>
-            <div class="subject"><div><span class="tag soon">Coming soon</span><h3>Subject 5</h3><p class="muted">Reserved slot for future demo.</p></div></div>
-            <div class="subject"><div><span class="tag soon">Coming soon</span><h3>Subject 6</h3><p class="muted">Reserved slot for future demo.</p></div></div>
-            <div class="subject"><div><span class="tag soon">Coming soon</span><h3>Subject 7</h3><p class="muted">Reserved slot for future demo.</p></div></div>
-            <div class="subject"><div><span class="tag soon">Coming soon</span><h3>Subject 8</h3><p class="muted">Reserved slot for future demo.</p></div></div>
-            <div class="subject"><div><span class="tag soon">Coming soon</span><h3>Subject 9</h3><p class="muted">Reserved slot for future demo.</p></div></div>
+          <div class="section-label">Video Summary</div>
+          <h2>Project Demo</h2>
+          <video controls playsinline muted loop poster="./assets/poster.jpg">
+            <source src="./assets/output.mp4" type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
+          <p class="mini">
+            This page is set up for GitHub Pages. The bundled video is already converted to a browser-friendly MP4 for direct playback on the website.
+          </p>
+        </div>
+        <div class="card">
+          <div class="section-label">Abstract</div>
+          <h2>What this project shows</h2>
+          <p>
+            Existing dynamic head-avatar methods often rely on fixed Gaussian–mesh bindings or black-box deformation models.
+            TGMF instead introduces a locally continuous motion field that parameterizes Gaussian motion attributes with a
+            second-order Taylor expansion, making local dynamics more compact, differentiable, and interpretable.
+          </p>
+          <p>
+            The method further combines local Gaussian motion with global head geometry through unified affine motion and
+            bidirectional Gaussian–mesh optimization, improving temporal consistency while preserving flexibility in highly
+            dynamic regions such as hair boundaries and facial contours.
+          </p>
+          <div class="soft-card">
+            <span class="pill">Why the page now looks more like CVPR sites</span>
+            <p class="mini" style="margin:10px 0 0;">
+              The layout follows the common structure seen in many CVPR project pages: title/authors/buttons, a teaser figure,
+              video summary, abstract, method highlights, results snapshot, qualitative gallery, and BibTeX.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="results">
+      <div class="wrap">
+        <div class="section-label">Results Snapshot</div>
+        <h2>Key takeaways</h2>
+        <div class="stat-grid">
+          <div class="stat">
+            <div class="v">+0.97</div>
+            <div class="k">PSNR gain over MeGA on novel-view synthesis</div>
+          </div>
+          <div class="stat">
+            <div class="v">10.53%</div>
+            <div class="k">LPIPS reduction on novel-expression synthesis</div>
+          </div>
+          <div class="stat">
+            <div class="v">6.90%</div>
+            <div class="k">LPIPS reduction when Taylor motion transfers to FlashAvatar</div>
+          </div>
+          <div class="stat">
+            <div class="v">Local</div>
+            <div class="k">Taylor prior focused on stable local motion neighborhoods</div>
           </div>
         </div>
       </div>
@@ -286,48 +240,114 @@
     <section>
       <div class="wrap grid-2">
         <div class="card">
-          <h2>Repository Layout</h2>
-          <pre>TGMF/
-├── README.md
-├── index.html
-├── assets/
-│   ├── output.mp4
-│   └── poster.jpg
-├── configs/
-├── scripts/
-├── networks/
-└── ...</pre>
+          <div class="section-label">Method</div>
+          <h2>What to emphasize on the project page</h2>
+          <ul class="clean">
+            <li>Second-order Taylor motion for Gaussian position, scale, and rotation.</li>
+            <li>Interpretable motion coefficients corresponding to local velocity and acceleration.</li>
+            <li>Unified affine motion to couple translation, rotation, and scale consistently.</li>
+            <li>Gaussian-driven mesh coupling plus Differentiable Motion Backpropagation.</li>
+            <li>Smoother temporal transitions in mouth, eyelids, contours, and hair boundaries.</li>
+          </ul>
         </div>
         <div class="card">
-          <h2>Release Plan</h2>
-          <ul>
-            <li>Stage 1: current main demo video.</li>
-            <li>Stage 2: add subject-wise 8 additional demos.</li>
-            <li>Stage 3: add qualitative comparison blocks.</li>
-            <li>Stage 4: add code, checkpoints, and reproduction instructions.</li>
-          </ul>
+          <div class="section-label">Presentation Guidance</div>
+          <h2>Do / Not Do</h2>
+          <div class="grid-2" style="grid-template-columns:1fr 1fr;gap:16px">
+            <div class="soft-card do">
+              <h3>Do</h3>
+              <ul class="clean">
+                <li>Lead with the video.</li>
+                <li>Show temporal stability, not only still frames.</li>
+                <li>Focus on expression transfer and local consistency.</li>
+                <li>State that the model is interpretable and local.</li>
+              </ul>
+            </div>
+            <div class="soft-card dont">
+              <h3>Not Do</h3>
+              <ul class="clean">
+                <li>Do not claim universal long-range dynamics.</li>
+                <li>Do not oversell high-frequency micro-motion fitting.</li>
+                <li>Do not hide the demo below technical sections.</li>
+                <li>Do not imply all future subject videos are already online.</li>
+              </ul>
+            </div>
+          </div>
         </div>
       </div>
     </section>
 
-    <section id="citation">
+    <section id="future-gallery">
       <div class="wrap">
-        <div class="card">
-          <h2>Citation</h2>
-<pre>@article{wang2025tgmf,
-  title   = {TGMF: Taylor Gaussian Motion Field for Dynamic Head Avatars},
-  author  = {Wang, Xiangyang and Qiu, Yu and Tan, Xiao and Wang, Rui and Cheng, Erkang},
-  journal = {arXiv preprint arXiv:XXXX.XXXXX},
-  year    = {2025}
+        <div class="split-note">
+          <div>
+            <div class="section-label">Planned Expansion</div>
+            <h2 style="margin-bottom:0">Future 8-subject video gallery</h2>
+          </div>
+          <p class="mini" style="max-width:440px;margin:0">
+            The current page contains one live demo. The cards below are ready to be replaced by the other eight subjects later,
+            following the same CVPR-style qualitative presentation.
+          </p>
+        </div>
+        <div class="gallery" style="margin-top:18px">
+          <div class="subject">
+            <div><span class="tag ready">Live now</span><h4>Subject Demo 01</h4><p>Current uploaded showcase video. Suitable for the first teaser result.</p></div>
+            <p><a href="#video-demo" style="color:var(--blue);font-weight:700">Jump to demo ↑</a></p>
+          </div>
+          <div class="subject">
+            <div><span class="tag soon">Coming soon</span><h4>Subject Demo 02</h4><p>Novel-view and novel-expression clip placeholder.</p></div>
+            <p>Replace with <code>assets/subject02.mp4</code></p>
+          </div>
+          <div class="subject">
+            <div><span class="tag soon">Coming soon</span><h4>Subject Demo 03</h4><p>Comparisons on stable local mouth and eyelid motion.</p></div>
+            <p>Replace with <code>assets/subject03.mp4</code></p>
+          </div>
+          <div class="subject">
+            <div><span class="tag soon">Coming soon</span><h4>Subject Demo 04</h4><p>More expressive sequence with stronger facial deformation.</p></div>
+            <p>Replace with <code>assets/subject04.mp4</code></p>
+          </div>
+          <div class="subject">
+            <div><span class="tag soon">Coming soon</span><h4>Subject Demo 05</h4><p>Hair-boundary and contour consistency example.</p></div>
+            <p>Replace with <code>assets/subject05.mp4</code></p>
+          </div>
+          <div class="subject">
+            <div><span class="tag soon">Coming soon</span><h4>Subject Demo 06</h4><p>Additional novel-view rendering showcase.</p></div>
+            <p>Replace with <code>assets/subject06.mp4</code></p>
+          </div>
+          <div class="subject">
+            <div><span class="tag soon">Coming soon</span><h4>Subject Demo 07</h4><p>Fast local motion with more challenging expressions.</p></div>
+            <p>Replace with <code>assets/subject07.mp4</code></p>
+          </div>
+          <div class="subject">
+            <div><span class="tag soon">Coming soon</span><h4>Subject Demo 08</h4><p>Cross-subject or monocular generalization example.</p></div>
+            <p>Replace with <code>assets/subject08.mp4</code></p>
+          </div>
+          <div class="subject">
+            <div><span class="tag soon">Coming soon</span><h4>Subject Demo 09</h4><p>Final subject slot for the complete 9-subject presentation.</p></div>
+            <p>Replace with <code>assets/subject09.mp4</code></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="bibtex">
+      <div class="wrap">
+        <div class="section-label">Citation</div>
+        <h2>BibTeX</h2>
+        <div class="bib">
+<pre>@inproceedings{wang2026tgmf,
+  title     = {TGMF: Taylor Gaussian Motion Field for Dynamic Head Avatars},
+  author    = {Wang, Xiangyang and Qiu, Yu and Tan, Xiao and Wang, Rui and Cheng, Erkang},
+  booktitle = {Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition},
+  year      = {2026}
 }</pre>
-          <p class="muted">Replace <span class="inline code">XXXX.XXXXX</span> with the final identifier before public release.</p>
         </div>
       </div>
     </section>
   </main>
 
   <footer>
-    Built for GitHub / GitHub Pages presentation. Current release includes one demo video and a reserved gallery for the remaining 8 subjects.
+    Built for GitHub Pages with a CVPR-style project-page layout. Replace the placeholder future-demo cards as new subject videos become available.
   </footer>
 </body>
 </html>

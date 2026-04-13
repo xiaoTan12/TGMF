@@ -6,12 +6,15 @@
   <title>TGMF: Taylor Gaussian Motion Field for Dynamic Head Avatars</title>
   <style>
     :root {
-      --bg: #ffffff;
+      --bg: #f7f8fb;
+      --panel: rgba(255,255,255,0.86);
+      --panel-strong: #ffffff;
       --text: #111111;
-      --muted: #666666;
-      --line: #e8e8e8;
-      --soft: #f7f7f7;
+      --muted: #5f6470;
+      --line: rgba(16, 24, 40, 0.08);
+      --soft: #f5f6f8;
       --accent: #111111;
+      --shadow: 0 12px 36px rgba(15, 23, 42, 0.07);
     }
 
     * { box-sizing: border-box; }
@@ -19,9 +22,13 @@
     html, body {
       margin: 0;
       padding: 0;
-      background: var(--bg);
       color: var(--text);
       font-family: "Inter", "Helvetica Neue", Arial, sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(175, 202, 255, 0.20), transparent 28%),
+        radial-gradient(circle at top right, rgba(255, 211, 182, 0.18), transparent 24%),
+        linear-gradient(180deg, #fbfbfd 0%, #f3f5f8 100%);
+      background-attachment: fixed;
     }
 
     body {
@@ -36,7 +43,7 @@
     .page {
       width: min(100%, 1080px);
       margin: 0 auto;
-      padding: 34px 24px 72px;
+      padding: 40px 24px 84px;
     }
 
     .hero {
@@ -60,11 +67,11 @@
     }
 
     .affiliations {
-      max-width: 820px;
+      max-width: 840px;
       margin: 0 auto;
       color: var(--muted);
       font-size: 14.5px;
-      line-height: 1.75;
+      line-height: 1.78;
     }
 
     .affiliations p {
@@ -78,7 +85,7 @@
       align-items: center;
       gap: 12px;
       flex-wrap: wrap;
-      margin-top: 22px;
+      margin-top: 24px;
     }
 
     .button {
@@ -89,15 +96,17 @@
       padding: 10px 18px;
       border: 1px solid var(--line);
       border-radius: 999px;
-      background: #fff;
+      background: rgba(255,255,255,0.9);
+      backdrop-filter: blur(8px);
       font-size: 14px;
       font-weight: 600;
       transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+      box-shadow: 0 4px 14px rgba(15, 23, 42, 0.04);
     }
 
     .button:hover {
       transform: translateY(-1px);
-      box-shadow: 0 8px 22px rgba(0, 0, 0, 0.07);
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.08);
     }
 
     .button.primary {
@@ -106,25 +115,31 @@
       color: #fff;
     }
 
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(10px);
+      overflow: hidden;
+    }
+
     .figure-wrap {
       width: min(100%, 980px);
       margin: 0 auto 34px;
-      border: 1px solid var(--line);
-      border-radius: 18px;
-      overflow: hidden;
-      background: #fff;
     }
 
     .figure-wrap img {
       display: block;
       width: 100%;
       height: auto;
+      background: var(--panel-strong);
     }
 
     .caption {
       padding: 12px 16px;
       border-top: 1px solid var(--line);
-      background: var(--soft);
+      background: rgba(249,249,251,0.9);
       color: var(--muted);
       font-size: 13.5px;
       line-height: 1.65;
@@ -136,13 +151,15 @@
       margin: 0 auto;
     }
 
-    .video-wrap {
+    .video-block {
       width: min(100%, 520px);
       margin: 0 auto 34px;
-      border: 1px solid var(--line);
-      border-radius: 18px;
+    }
+
+    .video-wrap {
       overflow: hidden;
       background: #000;
+      border-radius: 22px;
     }
 
     .video-wrap video {
@@ -150,6 +167,15 @@
       width: 100%;
       height: auto;
       background: #000;
+    }
+
+    .video-note {
+      margin-top: 12px;
+      padding: 14px 16px;
+      font-size: 14px;
+      line-height: 1.75;
+      color: var(--muted);
+      text-align: left;
     }
 
     .section-title {
@@ -160,8 +186,13 @@
       text-align: left;
     }
 
+    .abstract-panel {
+      padding: 24px 26px 26px;
+    }
+
     .abstract {
       margin-top: 0;
+      margin-bottom: 0;
       font-size: 16px;
       text-align: justify;
       text-justify: inter-word;
@@ -169,7 +200,7 @@
 
     @media (max-width: 720px) {
       .page {
-        padding: 24px 16px 52px;
+        padding: 24px 16px 54px;
       }
 
       .authors {
@@ -178,6 +209,10 @@
 
       .affiliations {
         font-size: 14px;
+      }
+
+      .abstract-panel {
+        padding: 20px 18px 22px;
       }
 
       .abstract {
@@ -208,25 +243,32 @@
       </div>
     </section>
 
-    <section class="figure-wrap">
+    <section class="figure-wrap card">
       <img src="framework.png" alt="TGMF framework figure" />
       <div class="caption">
         Overview of TGMF. The method models local Gaussian motion with a second-order Taylor formulation and refines Gaussian--mesh coupling through differentiable motion backpropagation.
       </div>
     </section>
 
-    <section class="video-wrap">
-      <video controls playsinline preload="metadata" poster="poster.png">
-        <source src="output.mp4" type="video/mp4" />
-        Your browser does not support the video tag.
-      </video>
+    <section class="video-block">
+      <div class="video-wrap card">
+        <video controls playsinline preload="metadata" poster="poster.png">
+          <source src="output.mp4" type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+      </div>
+      <div class="video-note card">
+        We will provide more video results in subsequent updates of this project page. Additional visual comparisons and demonstrations from the other eight subjects will be organized and released here in a more complete form.
+      </div>
     </section>
 
     <section class="content">
-      <h2 class="section-title">Abstract</h2>
-      <p class="abstract">
-        3D Gaussian Splatting has recently enabled high-quality head avatar reconstruction and animation. However, existing dynamic head-avatar methods usually rely on fixed Gaussian--mesh bindings or implicit deformation networks that do not explicitly model the geometric relationship between local Gaussian motion and global mesh deformation. As a result, they remain prone to local distortion, temporal blur, and drift under large expressions or rapid head motion. This paper proposes Taylor Gaussian Motion Field (TGMF), a locally continuous dynamic field that parameterizes motion-related Gaussian attributes using a second-order Taylor formulation around a reference state. Rather than treating motion as a frame-conditioned black-box mapping, TGMF explicitly associates Gaussian evolution with interpretable velocity and acceleration coefficients, yielding a compact, differentiable, and physically meaningful representation of local dynamics. To couple local Gaussian motion with global head geometry, we further introduce a unified affine motion formulation and a mesh-coupled optimization strategy that allows Gaussian trajectories to drive mesh deformation while using mesh reconstruction errors to refine the Gaussian motion field through bidirectional feedback. This design improves temporal consistency without sacrificing local flexibility in highly dynamic regions such as hair boundaries and facial contours. Experiments on NeRSemble show that TGMF achieves stronger rendering fidelity than publicly reproducible baselines in both novel-view synthesis and self-reenactment, while producing smoother and more stable dynamic motion.
-      </p>
+      <div class="abstract-panel card">
+        <h2 class="section-title">Abstract</h2>
+        <p class="abstract">
+          3D Gaussian Splatting has recently enabled high-quality head avatar reconstruction and animation. However, existing dynamic head-avatar methods usually rely on fixed Gaussian--mesh bindings or implicit deformation networks that do not explicitly model the geometric relationship between local Gaussian motion and global mesh deformation. As a result, they remain prone to local distortion, temporal blur, and drift under large expressions or rapid head motion. This paper proposes Taylor Gaussian Motion Field (TGMF), a locally continuous dynamic field that parameterizes motion-related Gaussian attributes using a second-order Taylor formulation around a reference state. Rather than treating motion as a frame-conditioned black-box mapping, TGMF explicitly associates Gaussian evolution with interpretable velocity and acceleration coefficients, yielding a compact, differentiable, and physically meaningful representation of local dynamics. To couple local Gaussian motion with global head geometry, we further introduce a unified affine motion formulation and a mesh-coupled optimization strategy that allows Gaussian trajectories to drive mesh deformation while using mesh reconstruction errors to refine the Gaussian motion field through bidirectional feedback. This design improves temporal consistency without sacrificing local flexibility in highly dynamic regions such as hair boundaries and facial contours. Experiments on NeRSemble show that TGMF achieves stronger rendering fidelity than publicly reproducible baselines in both novel-view synthesis and self-reenactment, while producing smoother and more stable dynamic motion.
+        </p>
+      </div>
     </section>
   </main>
 </body>

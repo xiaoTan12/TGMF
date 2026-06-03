@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>TGMF: Taylor Gaussian Motion Field for Dynamic Head Avatars</title>
+  <style>
+    :root {
+      --bg: #ffffff;
+      --text: #111111;
+      --muted: #555555;
+      --line: #d8d8d8;
+      --soft: #f7f7f7;
+      --accent: #111111;
+      --max: 980px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      color: var(--text);
+      background: var(--bg);
+      font-family: "Times New Roman", Times, serif;
+      line-height: 1.55;
+    }
+
+    a { color: #0645ad; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    .page {
+      width: min(100%, var(--max));
+      margin: 0 auto;
+      padding: 36px 22px 72px;
+    }
+
+    .hero {
+      text-align: center;
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 24px;
+      margin-bottom: 30px;
+    }
+
+    .venue {
+      display: inline-block;
+      margin-bottom: 12px;
+      padding: 3px 10px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      color: var(--muted);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 12px;
+      letter-spacing: 0.02em;
+    }
+
+    .title {
+      max-width: 920px;
+      margin: 0 auto;
+      font-size: clamp(28px, 4vw, 42px);
+      line-height: 1.13;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+    }
+
+    .authors {
+      margin: 18px auto 8px;
+      max-width: 900px;
+      font-size: 18px;
+      line-height: 1.75;
+    }
+
+    .authors sup,
+    .affiliations sup {
+      font-size: 70%;
+      line-height: 0;
+      vertical-align: super;
+    }
+
+    .membership {
+      color: var(--muted);
+      font-size: 90%;
+      white-space: nowrap;
+    }
+
+    .affiliations {
+      max-width: 860px;
+      margin: 8px auto 0;
+      color: var(--muted);
+      font-size: 14.5px;
+      line-height: 1.6;
+    }
+
+    .affiliations p { margin: 3px 0; }
+
+    .author-note {
+      max-width: 820px;
+      margin: 10px auto 0;
+      color: var(--muted);
+      font-size: 13.5px;
+      line-height: 1.55;
+    }
+
+    .buttons {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 22px;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 104px;
+      padding: 8px 16px;
+      border: 1px solid var(--accent);
+      border-radius: 4px;
+      background: #ffffff;
+      color: var(--accent);
+      font-size: 14px;
+      font-weight: 600;
+      text-decoration: none;
+    }
+
+    .button:hover {
+      background: var(--soft);
+      text-decoration: none;
+    }
+
+    .button.primary {
+      background: var(--accent);
+      color: #ffffff;
+    }
+
+    .section {
+      margin: 30px auto;
+    }
+
+    .figure-wrap {
+      width: min(100%, 940px);
+      margin: 0 auto 30px;
+      border: 1px solid var(--line);
+      background: #ffffff;
+    }
+
+    .figure-wrap img {
+      display: block;
+      width: 100%;
+      height: auto;
+      background: #ffffff;
+    }
+
+    .caption {
+      padding: 10px 14px;
+      border-top: 1px solid var(--line);
+      background: var(--soft);
+      color: var(--muted);
+      font-size: 13.5px;
+      line-height: 1.55;
+      text-align: left;
+    }
+
+    .caption strong { color: var(--text); }
+
+    .content {
+      width: min(100%, 800px);
+      margin: 0 auto;
+    }
+
+    .video-block {
+      width: min(100%, 940px);
+      margin: 0 auto 30px;
+    }
+
+    .video-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 18px;
+    }
+
+    .video-card {
+      overflow: hidden;
+      border: 1px solid var(--line);
+      background: #ffffff;
+    }
+
+    .video-wrap {
+      overflow: hidden;
+      background: #000;
+      border: 1px solid var(--line);
+    }
+
+    .video-card .video-wrap {
+      border: 0;
+    }
+
+    .video-wrap video {
+      display: block;
+      width: 100%;
+      height: auto;
+      background: #000;
+    }
+
+    .video-title {
+      padding: 9px 12px;
+      border-top: 1px solid var(--line);
+      background: var(--soft);
+      color: var(--muted);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 13.5px;
+      line-height: 1.35;
+      text-align: center;
+    }
+
+    .video-note {
+      margin-top: 10px;
+      padding: 11px 13px;
+      border: 1px solid var(--line);
+      background: var(--soft);
+      font-size: 14px;
+      line-height: 1.65;
+      color: var(--muted);
+      text-align: left;
+    }
+
+    .panel {
+      border: 1px solid var(--line);
+      background: #ffffff;
+      padding: 22px 24px;
+    }
+
+    .section-title {
+      margin: 0 0 12px;
+      padding-bottom: 6px;
+      border-bottom: 1px solid var(--line);
+      font-size: 21px;
+      line-height: 1.25;
+      text-align: left;
+    }
+
+    .abstract {
+      margin: 0;
+      font-size: 16px;
+      text-align: justify;
+      text-justify: inter-word;
+    }
+
+    .citation {
+      margin: 0;
+      padding: 14px 16px;
+      overflow-x: auto;
+      border: 1px solid var(--line);
+      background: var(--soft);
+      font-family: "Courier New", Courier, monospace;
+      font-size: 13.5px;
+      line-height: 1.5;
+      text-align: left;
+    }
+
+    @media (max-width: 720px) {
+      .page { padding: 24px 16px 54px; }
+      .authors { font-size: 16px; }
+      .affiliations { font-size: 14px; }
+      .panel { padding: 18px 16px; }
+      .abstract { text-align: left; }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <section class="hero">
+      <div class="venue">Submitted to IEEE Transactions on Multimedia</div>
+      <h1 class="title">TGMF: Taylor Gaussian Motion Field for Dynamic Head Avatars</h1>
+
+      <div class="authors">
+        Xiangyang Wang<sup>1</sup>,
+        Yu Qiu<sup>1</sup>,
+        Xiao Tan<sup>1</sup>,
+        Rui Wang<sup>1,†</sup> <span class="membership">Senior Member, IEEE</span>,
+        and Erkang Cheng<sup>2</sup>
+      </div>
+
+      <div class="affiliations">
+        <p><sup>1</sup>School of Communication and Information Engineering, Shanghai University, Shanghai 200444, China</p>
+        <p><sup>2</sup>Nullmax Co., Ltd., Shanghai, China</p>
+      </div>
+
+      <div class="author-note">
+        E-mails: wangxiangyang@shu.edu.cn; qiuyu06@shu.edu.cn; 1169080163@shu.edu.cn; rwang@shu.edu.cn; twokang.cheng@gmail.com.<br />
+        <sup>†</sup>Corresponding author: Rui Wang.
+      </div>
+
+      <div class="buttons">
+        <a class="button primary" href="#" title="Paper will be available after publication">Paper (coming soon)</a>
+        <a class="button" href="https://github.com/xiaoTan12/TGMF" target="_blank" rel="noopener">Code</a>
+        <a class="button" href="#videos">Videos</a>
+        <a class="button" href="#abstract">Abstract</a>
+      </div>
+    </section>
+
+    <section class="figure-wrap section">
+      <img src="1.png" alt="TGMF framework figure" />
+      <div class="caption">
+        <strong>Fig. 1.</strong> Overview of TGMF. The method models local Gaussian motion with a second-order Taylor formulation and refines Gaussian--mesh coupling through differentiable motion backpropagation.
+      </div>
+    </section>
+
+    <section id="videos" class="video-block section">
+      <h2 class="section-title">Demo Videos</h2>
+
+      <div class="video-grid">
+        <article class="video-card">
+          <div class="video-wrap">
+            <video controls playsinline preload="metadata" poster="poster.jpg">
+              <source src="output.mp4" type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
+          </div>
+          <div class="video-title">Demo Video</div>
+        </article>
+
+        <article class="video-card">
+          <div class="video-wrap">
+            <video controls playsinline preload="metadata" poster="poster.jpg">
+              <source src="074.mp4" type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
+          </div>
+          <div class="video-title">Subject 074</div>
+        </article>
+
+        <article class="video-card">
+          <div class="video-wrap">
+            <video controls playsinline preload="metadata" poster="poster.jpg">
+              <source src="104.mp4" type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
+          </div>
+          <div class="video-title">Subject 104</div>
+        </article>
+
+        <article class="video-card">
+          <div class="video-wrap">
+            <video controls playsinline preload="metadata" poster="poster.jpg">
+              <source src="218.mp4" type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
+          </div>
+          <div class="video-title">Subject 218</div>
+        </article>
+
+        <article class="video-card">
+          <div class="video-wrap">
+            <video controls playsinline preload="metadata" poster="poster.jpg">
+              <source src="253.mp4" type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
+          </div>
+          <div class="video-title">Subject 253</div>
+        </article>
+      </div>
+
+      <div class="video-note">
+        This page presents all demo videos currently available in the repository, including the original demo video and four additional subject videos.
+      </div>
+    </section>
+
+    <section class="content section">
+      <div class="panel">
+        <h2 id="abstract" class="section-title">Abstract</h2>
+        <p class="abstract">
+          3D Gaussian Splatting has recently enabled high-quality head avatar reconstruction and animation. However, existing dynamic head-avatar methods usually rely on fixed Gaussian--mesh bindings or implicit deformation networks that do not explicitly model the geometric relationship between local Gaussian motion and global mesh deformation. As a result, they remain prone to local distortion, temporal blur, and drift under large expressions or rapid head motion. This paper proposes Taylor Gaussian Motion Field (TGMF), a locally continuous dynamic field that parameterizes motion-related Gaussian attributes using a second-order Taylor formulation around a reference state. Rather than treating motion as a frame-conditioned black-box mapping, TGMF explicitly associates Gaussian evolution with interpretable velocity and acceleration coefficients, yielding a compact, differentiable, and physically meaningful representation of local dynamics. To couple local Gaussian motion with global head geometry, we further introduce a unified affine motion formulation and a mesh-coupled optimization strategy that allows Gaussian trajectories to drive mesh deformation while using mesh reconstruction errors to refine the Gaussian motion field through bidirectional feedback. This design improves temporal consistency without sacrificing local flexibility in highly dynamic regions such as hair boundaries and facial contours. Experiments on NeRSemble show that TGMF achieves stronger rendering fidelity than publicly reproducible baselines in both novel-view synthesis and self-reenactment, while producing smoother and more stable dynamic motion.
+        </p>
+      </div>
+    </section>
+
+    <section class="content section">
+      <h2 class="section-title">Citation</h2>
+      <div class="video-note">BibTeX information will be released after the paper is publicly available.</div>
+    </section>
+  </main>
+</body>
+</html>
